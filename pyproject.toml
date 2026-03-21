@@ -1,0 +1,12 @@
+[project]
+name = "yt-tui"
+version = "0.1.0"
+description = "A TUI for yt-dlp and ffmpeg"
+requires-python = ">=3.10"
+dependencies = [
+    "textual>=3.0",
+    "yt-dlp",
+]
+
+[project.scripts]
+yt-tui = "yt_tui.app:main"
