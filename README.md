@@ -5,13 +5,12 @@ A terminal user interface for downloading YouTube videos and audio using [yt-dlp
 ## Screenshots
 
 ### URL Input
-![URL Screen](screenshots/url.svg)
+<img width="722" height="436" alt="image" src="https://github.com/user-attachments/assets/b28991c7-9d36-4247-b2bb-39ed12b39ab8" />
+
 
 ### Format & Quality Selection
-![Options Screen](screenshots/options.svg)
+<img width="965" height="1378" alt="image" src="https://github.com/user-attachments/assets/3407b111-8dd6-4571-accb-665cf1e61e12" />
 
-### Timeline Splitting
-![Split Screen](screenshots/options_split.svg)
 
 ## Features
 
