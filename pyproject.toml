@@ -8,5 +8,8 @@ dependencies = [
     "yt-dlp",
 ]
 
+[tool.setuptools.packages.find]
+include = ["yt_tui*"]
+
 [project.scripts]
 yt-tui = "yt_tui.app:main"

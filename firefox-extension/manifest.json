@@ -1,0 +1,40 @@
+{
+  "manifest_version": 2,
+  "name": "YouTube Downloader",
+  "version": "1.0.0",
+  "description": "Download and cut YouTube videos using yt-dlp and ffmpeg",
+  "permissions": [
+    "activeTab",
+    "http://127.0.0.1:5123/*"
+  ],
+  "browser_action": {
+    "default_icon": {
+      "48": "icons/icon-48.svg",
+      "96": "icons/icon-96.svg"
+    },
+    "default_title": "YouTube Downloader"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.youtube.com/watch*"
+      ],
+      "js": ["content.js"],
+      "css": ["panel.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "48": "icons/icon-48.svg",
+    "96": "icons/icon-96.svg"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "yt-downloader@local",
+      "strict_min_version": "109.0"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: yt-tui
+Version: 0.1.0
+Summary: A TUI for yt-dlp and ffmpeg
+Requires-Python: >=3.10
+Requires-Dist: textual>=3.0
+Requires-Dist: yt-dlp

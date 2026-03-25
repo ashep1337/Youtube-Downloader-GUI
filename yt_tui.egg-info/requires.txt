@@ -1,0 +1,2 @@
+textual>=3.0
+yt-dlp

@@ -1,0 +1,2 @@
+[console_scripts]
+yt-tui = yt_tui.app:main

@@ -1,0 +1,411 @@
+/* ── Floating download button ── */
+#ytdl-btn {
+  position: fixed;
+  top: 80px;
+  right: 24px;
+  z-index: 99999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ff0000;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+#ytdl-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+#ytdl-btn svg {
+  width: 26px;
+  height: 26px;
+  fill: #fff;
+}
+
+/* ── Overlay panel ── */
+#ytdl-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 420px;
+  height: 100vh;
+  z-index: 100000;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  box-shadow: -4px 0 24px rgba(0,0,0,0.6);
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#ytdl-panel.open {
+  transform: translateX(0);
+}
+
+/* ── Panel header ── */
+#ytdl-panel .panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: #16213e;
+  border-bottom: 1px solid #0f3460;
+  flex-shrink: 0;
+}
+#ytdl-panel .panel-header h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+#ytdl-panel .panel-close {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+#ytdl-panel .panel-close:hover {
+  color: #ff4444;
+}
+
+/* ── Panel body ── */
+#ytdl-panel .panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* ── Sections ── */
+#ytdl-panel .section {
+  margin-bottom: 20px;
+}
+#ytdl-panel .section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #7f8fa6;
+  margin-bottom: 8px;
+}
+#ytdl-panel .video-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+#ytdl-panel .video-duration {
+  font-size: 13px;
+  color: #7f8fa6;
+}
+
+/* ── Divider ── */
+#ytdl-panel .divider {
+  height: 1px;
+  background: #0f3460;
+  margin: 16px 0;
+}
+
+/* ── Radio / checkbox groups ── */
+#ytdl-panel .radio-group,
+#ytdl-panel .checkbox-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+#ytdl-panel .radio-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+#ytdl-panel .radio-option input[type="radio"],
+#ytdl-panel .checkbox-row input[type="checkbox"] {
+  accent-color: #e94560;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+#ytdl-panel .radio-option label,
+#ytdl-panel .checkbox-row label {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ── Format list ── */
+#ytdl-panel .format-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #0f3460;
+  border-radius: 6px;
+  background: #0f0f23;
+  margin-top: 8px;
+}
+#ytdl-panel .format-list.disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+#ytdl-panel .format-item {
+  padding: 8px 12px;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  cursor: pointer;
+  border-bottom: 1px solid #16213e;
+  transition: background 0.1s;
+}
+#ytdl-panel .format-item:last-child {
+  border-bottom: none;
+}
+#ytdl-panel .format-item:hover {
+  background: #16213e;
+}
+#ytdl-panel .format-item.selected {
+  background: #0f3460;
+  color: #fff;
+}
+
+/* ── Timeline ── */
+#ytdl-panel .timeline-container {
+  margin-top: 8px;
+}
+#ytdl-panel .timeline-container.disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+#ytdl-panel .timeline-bar {
+  position: relative;
+  height: 32px;
+  background: #0f0f23;
+  border: 1px solid #0f3460;
+  border-radius: 6px;
+  cursor: crosshair;
+  user-select: none;
+  overflow: hidden;
+}
+#ytdl-panel .timeline-cursor {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: #00d2ff;
+  pointer-events: none;
+  z-index: 2;
+}
+#ytdl-panel .timeline-marker {
+  position: absolute;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: #e94560;
+  cursor: ew-resize;
+  z-index: 3;
+}
+#ytdl-panel .timeline-marker::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -5px;
+  width: 13px;
+  height: 13px;
+  background: #e94560;
+  border-radius: 50%;
+}
+#ytdl-panel .timeline-segment {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  opacity: 0.15;
+  z-index: 1;
+}
+#ytdl-panel .timeline-segment:nth-child(odd) {
+  background: #00d2ff;
+}
+#ytdl-panel .timeline-segment:nth-child(even) {
+  background: #e94560;
+}
+#ytdl-panel .timeline-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #7f8fa6;
+  margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace;
+}
+#ytdl-panel .marker-info {
+  font-size: 12px;
+  color: #7f8fa6;
+  margin-top: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1.6;
+}
+
+/* ── Preset buttons ── */
+#ytdl-panel .preset-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+#ytdl-panel .preset-btn {
+  padding: 4px 12px;
+  font-size: 12px;
+  border: 1px solid #0f3460;
+  border-radius: 4px;
+  background: #16213e;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+#ytdl-panel .preset-btn:hover {
+  background: #0f3460;
+}
+#ytdl-panel .preset-btn.danger {
+  border-color: #e94560;
+  color: #e94560;
+}
+#ytdl-panel .preset-btn.danger:hover {
+  background: #e94560;
+  color: #fff;
+}
+#ytdl-panel .preset-btn:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* ── Text input ── */
+#ytdl-panel .text-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 13px;
+  background: #0f0f23;
+  border: 1px solid #0f3460;
+  border-radius: 6px;
+  color: #e0e0e0;
+  outline: none;
+  box-sizing: border-box;
+  margin-top: 6px;
+}
+#ytdl-panel .text-input:focus {
+  border-color: #e94560;
+}
+
+/* ── Primary action button ── */
+#ytdl-panel .btn-primary {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #e94560, #c23152);
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  margin-top: 8px;
+}
+#ytdl-panel .btn-primary:hover {
+  opacity: 0.9;
+}
+#ytdl-panel .btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Progress / log ── */
+#ytdl-panel .progress-section {
+  display: none;
+}
+#ytdl-panel .progress-section.active {
+  display: block;
+}
+#ytdl-panel .progress-bar-container {
+  height: 8px;
+  background: #0f0f23;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+#ytdl-panel .progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e94560, #00d2ff);
+  border-radius: 4px;
+  width: 0%;
+  transition: width 0.3s;
+}
+#ytdl-panel .status-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+#ytdl-panel .log-output {
+  height: 200px;
+  overflow-y: auto;
+  background: #0f0f23;
+  border: 1px solid #0f3460;
+  border-radius: 6px;
+  padding: 10px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  color: #7f8fa6;
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin-top: 8px;
+}
+
+/* ── Error / status messages ── */
+#ytdl-panel .error-msg {
+  color: #e94560;
+  font-size: 12px;
+  margin-top: 6px;
+}
+#ytdl-panel .success-msg {
+  color: #4ecca3;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ── Loading spinner ── */
+#ytdl-panel .spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #0f3460;
+  border-top-color: #e94560;
+  border-radius: 50%;
+  animation: ytdl-spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+@keyframes ytdl-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Backend status indicator ── */
+#ytdl-panel .backend-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #7f8fa6;
+  margin-bottom: 12px;
+}
+#ytdl-panel .backend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e94560;
+}
+#ytdl-panel .backend-dot.connected {
+  background: #4ecca3;
+}
