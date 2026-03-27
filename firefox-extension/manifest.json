@@ -33,8 +33,11 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "yt-downloader@local",
-      "strict_min_version": "109.0"
+      "id": "yt-downloader-v2@local",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   }
 }
